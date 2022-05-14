@@ -32,13 +32,24 @@ resources:
       name: my_key
 
   network:
-    type: https://raw.githubusercontent.com/aladdin-1/openstack/main/private_network.yml
+    type: https://raw.githubusercontent.com/aladdin-1/heatorch/main/private_network.yml
     properties:
       public_network: { get_param: public_network }
 
 
+  mysql:
+    type: https://raw.githubusercontent.com/aladdin-1/heatorch/main/database.yml
+    properties:
+      image: { get_param: image }
+      flavor: { get_param: flavor }
+      key: { get_param: key }
+      private_network: { get_attr: [network, name] }
+      database_name: wordpress
+      database_user: wordpress_user
+      
+      
   wordpress:
-    type: https://raw.githubusercontent.com/aladdin-1/openstack/main/wrdprss.yml
+    type: https://raw.githubusercontent.com/aladdin-1/heatorch/main/wordpress.yml
     properties:
       image: { get_param: image }
       flavor: { get_param: flavor }
@@ -47,21 +58,11 @@ resources:
       mysql_server: { get_attr: [mysql, ip] }
       database_name: wordpress
       database_user: wordpress_user
-      database_password: { get_attr: [mysql, database_password] }
+      database_password: { get_attr: [mysql, database_password] }  
 
-
-  mysql:
-    type: https://raw.githubusercontent.com/aladdin-1/openstack/main/database.yml
-    properties:
-      image: { get_param: image }
-      flavor: { get_param: flavor }
-      key: { get_param: key }
-      private_network: { get_attr: [network, name] }
-      database_name: wordpress
-      database_user: wordpress_user
 
   floating_ip:
-    type: https://raw.githubusercontent.com/aladdin-1/openstack/main/floating_ip.yml
+    type: https://raw.githubusercontent.com/aladdin-1/heatorch/main/floating_ip.yml
     properties:
       port: { get_attr: [wordpress, port] }
       public_network: { get_param: public_network }
