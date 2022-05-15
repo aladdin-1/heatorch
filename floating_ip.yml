@@ -7,12 +7,12 @@ parameters:
     type: string
     label: Server port
     description: The server port that receives the floating IP address.
-
+    
   public_network:
     type: string
     label: Public network name or ID
     description: Public network with floating IP addresses.
-    default: 8614c109-f022-4958-ac80-73ddb11847f3
+    default: ext-net
 
 resources:
   floating_ip:
