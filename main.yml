@@ -1,13 +1,13 @@
 heat_template_version: 2013-05-23
-
+ 
 description: Template that installs a wordpress server and supporting MySQL database running on separate servers
-
+ 
 parameters:
   image:
     type: string
     label: Image name or ID
     description: Image to be used for server. Please use an Ubuntu based image.
-    default: fedora-20.x86_64
+    default: 	fedora-20.x86_64
   flavor:
     type: string
     label: Flavor
@@ -22,23 +22,16 @@ parameters:
     type: string
     label: Public network name or ID
     description: Public network to attach server to.
-    default: 8614c109-f022-4958-ac80-73ddb11847f3
-
+    default: ext-net
+ 
 resources:
-  my_key:
-    type: OS::Nova::KeyPair
-    properties:
-      save_private_key: true
-      name: my_key
-
   network:
-    type: https://raw.githubusercontent.com/aladdin-1/heatorch/main/private_network.yml
+    type: Lib::MSG::PrivateNetwork
     properties:
       public_network: { get_param: public_network }
 
-
   mysql:
-    type: https://raw.githubusercontent.com/aladdin-1/heatorch/main/database.yml
+    type: Lib::MSG::MySQL
     properties:
       image: { get_param: image }
       flavor: { get_param: flavor }
@@ -46,10 +39,9 @@ resources:
       private_network: { get_attr: [network, name] }
       database_name: wordpress
       database_user: wordpress_user
-      
-      
+ 
   wordpress:
-    type: https://raw.githubusercontent.com/aladdin-1/heatorch/main/wordpress.yml
+    type: Lib::MSG::Wordpress
     properties:
       image: { get_param: image }
       flavor: { get_param: flavor }
@@ -58,11 +50,10 @@ resources:
       mysql_server: { get_attr: [mysql, ip] }
       database_name: wordpress
       database_user: wordpress_user
-      database_password: { get_attr: [mysql, database_password] }  
-
+      database_password: { get_attr: [mysql, database_password] }
 
   floating_ip:
-    type: https://raw.githubusercontent.com/aladdin-1/heatorch/main/floating_ip.yml
+    type: Lib::MSG::FloatingIP
     properties:
       port: { get_attr: [wordpress, port] }
       public_network: { get_param: public_network }
