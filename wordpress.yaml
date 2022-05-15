@@ -108,6 +108,4 @@ outputs:
   port:
     description: The network port of the wordpress instance.
     value: { get_resource: port }
-  private_key:
-    description: Private key
-    value: { get_attr: [ my_key, private_key ] }
+ 
