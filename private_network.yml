@@ -7,7 +7,7 @@ parameters:
     type: string
     label: Public network name or ID
     description: Public network with floating IP addresses.
-    default: 8614c109-f022-4958-ac80-73ddb11847f3
+    default: ext-net
   cidr:
     type: string
     label: CIDR
