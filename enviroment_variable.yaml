@@ -1,5 +1,0 @@
-resource_registry:
-  Lib::MSG::MySQL: https://raw.githubusercontent.com/aladdin-1/heatorch/main/mysql.yaml
-  Lib::MSG::Wordpress: https://raw.githubusercontent.com/aladdin-1/heatorch/main/wordpress.yaml
-  Lib::MSG::PrivateNetwork: https://raw.githubusercontent.com/aladdin-1/heatorch/main/private_network.yaml
-  Lib::MSG::FloatingIP: https://raw.githubusercontent.com/aladdin-1/heatorch/main/floating_ip.yaml
